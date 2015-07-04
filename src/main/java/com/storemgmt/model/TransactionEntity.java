@@ -47,8 +47,11 @@ public class TransactionEntity implements Auditable {
 	@Column(name = "txn_total")
 	protected float txnTotal;
 	
-	@Column(name = "sell_pur_flag")
-	protected int sellPurchaseFlag;
+	@Column(name = "sell_buy_flg")
+	protected int sellBuyFlg;
+	
+	@Column(name = "cr_dr_flg")
+	protected int crDrFlg;
 	
 	@Column(name = "txn_amt_paid")
 	protected float txnAmtPaid;
@@ -74,13 +77,7 @@ public class TransactionEntity implements Auditable {
 
 	
 	
-	public List<InventoryEntity> getItemList() {
-		return itemList;
-	}
-
-	public void setItemList(List<InventoryEntity> itemList) {
-		this.itemList = itemList;
-	}
+	
 
 	public long getTxnId() {
 		return txnId;
@@ -146,12 +143,20 @@ public class TransactionEntity implements Auditable {
 		this.txnTotal = txnTotal;
 	}
 
-	public int getSellPurchaseFlag() {
-		return sellPurchaseFlag;
+	public int getSellBuyFlg() {
+		return sellBuyFlg;
 	}
 
-	public void setSellPurchaseFlag(int sellPurchaseFlag) {
-		this.sellPurchaseFlag = sellPurchaseFlag;
+	public void setSellBuyFlg(int sellBuyFlg) {
+		this.sellBuyFlg = sellBuyFlg;
+	}
+
+	public int getCrDrFlg() {
+		return crDrFlg;
+	}
+
+	public void setCrDrFlg(int crDrFlg) {
+		this.crDrFlg = crDrFlg;
 	}
 
 	public float getTxnAmtPaid() {
@@ -168,6 +173,14 @@ public class TransactionEntity implements Auditable {
 
 	public void setTxnStatus(int txnStatus) {
 		this.txnStatus = txnStatus;
+	}
+
+	public List<InventoryEntity> getItemList() {
+		return itemList;
+	}
+
+	public void setItemList(List<InventoryEntity> itemList) {
+		this.itemList = itemList;
 	}
 
 	public String getCreatedBy() {
@@ -219,7 +232,7 @@ public class TransactionEntity implements Auditable {
 	
 	public String toString()
 	{
-		return " Txn ID : "+ this.getTxnId() +"\n Transaction type: "+ this.getSellPurchaseFlag() +"\n Customer Name: "+
+		return " Txn ID : "+ this.getTxnId() +"\n Transaction type: "+ this.getSellBuyFlg() +"\n Customer Name: "+
 				this.getCustId() + " \n Item List :"+ this.getItemList();
 	}
 	
