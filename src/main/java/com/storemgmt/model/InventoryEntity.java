@@ -12,6 +12,8 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
 import org.springframework.stereotype.Component;
 
@@ -49,6 +51,12 @@ public class InventoryEntity implements Auditable {
 	
 	@Column(name = "cr_dr_flag")
 	protected int crDrFlag;
+	
+	@Column(name = "mfg_id")
+	protected int mfgId;
+	
+	@Column(name = "mfg_name")
+	protected String mfgName;
 	
 	@Column(name = "created_by")
 	protected String createdBy;
@@ -109,6 +117,22 @@ public class InventoryEntity implements Auditable {
 
 	public void setPpu(int ppu) {
 		this.ppu = ppu;
+	}	
+
+	public int getMfgId() {
+		return mfgId;
+	}
+
+	public void setMfgId(int mfgId) {
+		this.mfgId = mfgId;
+	}
+
+	public String getMfgName() {
+		return mfgName;
+	}
+
+	public void setMfgName(String mfgName) {
+		this.mfgName = mfgName;
 	}
 
 	public Date getInvTxnDt() {
@@ -176,7 +200,7 @@ public class InventoryEntity implements Auditable {
 	
 	public String toString()
 	{
-		return " Inventory ID : "+ this.getInventId() +"\n Transaction type: "+ this.getCrDrFlag() +"\n Product Name: "
-				+this.getProdName();
+		return " Inventory ID : "+ this.getProdName() +"\n Transaction type: "+ this.getMfgName() +"\n Product Name: "+ this.getPpu()+"hello "
+				+this.getQty();
 	}
 }

@@ -1,41 +1,50 @@
 package com.storemgmt.service;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.storemgmt.dao.InventoryDao;
 import com.storemgmt.model.InventoryEntity;
 
+@Service("InventoryServiceImpl")
+@Transactional(readOnly = true)
 public class InventoryServiceImpl implements InventoryService {
 
 	@Autowired
 	InventoryDao inventoryDao;
 	
-	@Transactional
-	public void createTransaction(InventoryEntity inventoryEntity) {
+	@Transactional(readOnly = false)
+	public void addInventory(InventoryEntity inventoryEntity) {
 		inventoryDao.addInventory(inventoryEntity);
 
 	}
 
-	@Transactional
-	public void updateTransaction(InventoryEntity inventoryEntity) {
+	@Transactional(readOnly = false)
+	public void updateInventory(InventoryEntity inventoryEntity) {
 
 		inventoryDao.updateInvntory(inventoryEntity);
 		
 	}
-
-	@Transactional
-	public InventoryEntity fetchTransaction(InventoryEntity inventoryEntity) {
+	
+	public InventoryEntity fetchInventoryItem(InventoryEntity inventoryEntity) {
 
 		return inventoryDao.fetchInventoryItem(inventoryEntity);
 	}
 
-	@Transactional
-	public List<InventoryEntity> fetchTransactions() {
+	public List<InventoryEntity> fetchInventoryList(Map<String,Integer> orderBy) {
 
-		return inventoryDao.fetchInventoryList();
+		
+		return (List<InventoryEntity>)inventoryDao.fetchInventoryList(orderBy);
+	}
+
+	public List<InventoryEntity> fetchInventoryListA(
+			Map<String, Integer> orderBy) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

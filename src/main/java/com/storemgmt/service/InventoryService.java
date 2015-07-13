@@ -1,17 +1,20 @@
 package com.storemgmt.service;
 
 import java.util.List;
+import java.util.Map;
 
 import com.storemgmt.model.InventoryEntity;
 
 public interface InventoryService {
 
-	void createTransaction(InventoryEntity inventoryEntity);
+	void addInventory(InventoryEntity inventoryEntity);
 	
-	void updateTransaction(InventoryEntity inventoryEntity);
+	void updateInventory(InventoryEntity inventoryEntity);
 	
-	InventoryEntity fetchTransaction(InventoryEntity inventoryEntity);
+	InventoryEntity fetchInventoryItem(InventoryEntity inventoryEntity);
 	
-	List<InventoryEntity> fetchTransactions();
-
+	List<InventoryEntity> fetchInventoryList(Map<String,Integer> orderBy);
+	
+	public List<InventoryEntity> fetchInventoryListA(Map<String, Integer> orderBy);
+	
 }

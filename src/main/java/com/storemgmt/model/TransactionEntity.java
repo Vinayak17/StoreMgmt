@@ -214,7 +214,7 @@ public class TransactionEntity implements Auditable {
 	public void setUpdatedOn(Date updatedOn) {
 		this.updatedOn = updatedOn;
 	}
-	
+
 	public int hashCode()
 	{
 		return (int)(this.txnId/10000);
@@ -232,8 +232,8 @@ public class TransactionEntity implements Auditable {
 	
 	public String toString()
 	{
-		return " Txn ID : "+ this.getTxnId() +"\n Transaction type: "+ this.getSellBuyFlg() +"\n Customer Name: "+
-				this.getCustId() + " \n Item List :"+ this.getItemList();
+		return "\n Txn ID : "+ this.getTxnId() +"\t Transaction type: "+ this.getSellBuyFlg() +"\t Customer Name: "+this.getCustId()+" \t Txn total: " +this.getTxnTotal()+"\t Updated on :"+this.getUpdatedOn() 
+				+ " \n Item List :"+ this.getItemList();
 	}
 	
 }

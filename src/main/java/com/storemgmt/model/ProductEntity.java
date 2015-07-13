@@ -34,20 +34,23 @@ public class ProductEntity {
 	@Column(name = "prod_sub_type")
 	protected int prodSubType;
 	
-	@Column(name = "prod_selling_unit")
-	protected int prodSellingUnit;
+	/*@Column(name = "prod_mfg_Id")
+	protected int prodMfgId;
 	
+	@Column(name = "prod_mfg_name")
+	protected int prodMfgName;
+	*/
 	@Column(name = "prod_name")
 	protected String prodName;
-	
-	@Column(name = "prod_sell_unit")
-	protected int prodSellUnit;
 	
 	@Column(name = "prod_desc")
 	protected String prodDesc;
 	
 	@Column(name = "prod_Entry_dt")
 	protected Date prodEntryDate;
+	
+	@Column(name = "prod_usg_flg")
+	protected Date prodUsgFlg;
 	
 	@Column(name = "created_by")
 	protected String createdBy;
@@ -101,15 +104,7 @@ public class ProductEntity {
 	public void setProdName(String prodName) {
 		this.prodName = prodName;
 	}
-
-	public int getProdSellUnit() {
-		return prodSellUnit;
-	}
-
-	public void setProdSellUnit(int prodSellUnit) {
-		this.prodSellUnit = prodSellUnit;
-	}
-
+	
 	public String getProdDesc() {
 		return prodDesc;
 	}
@@ -124,16 +119,32 @@ public class ProductEntity {
 
 	public void setProdEntryDate(Date prodEntryDate) {
 		this.prodEntryDate = prodEntryDate;
-	}
+	}	
 	
-	public int getProdSellingUnit() {
-		return prodSellingUnit;
+	/*public int getProdMfgId() {
+		return prodMfgId;
 	}
 
-	public void setProdSellingUnit(int prodSellingUnit) {
-		this.prodSellingUnit = prodSellingUnit;
+	public void setProdMfgId(int prodMfgId) {
+		this.prodMfgId = prodMfgId;
 	}
+
+	public int getProdMfgName() {
+		return prodMfgName;
+	}
+
+	public void setProdMfgName(int prodMfgName) {
+		this.prodMfgName = prodMfgName;
+	}*/
 	
+	public Date getProdUsgFlg() {
+		return prodUsgFlg;
+	}
+
+	public void setProdUsgFlg(Date prodUsgFlg) {
+		this.prodUsgFlg = prodUsgFlg;
+	}
+
 	public String getCreatedBy() {
 		return createdBy;
 	}
