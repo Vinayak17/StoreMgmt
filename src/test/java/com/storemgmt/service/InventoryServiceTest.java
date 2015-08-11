@@ -15,14 +15,14 @@ import org.springframework.test.context.support.AnnotationConfigContextLoader;
 import com.storemgmt.config.SpringConfig;
 import com.storemgmt.model.InventoryEntity;
 
-@RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(classes = SpringConfig.class, loader = AnnotationConfigContextLoader.class)
+//@RunWith(SpringJUnit4ClassRunner.class)
+//@ContextConfiguration(classes = SpringConfig.class, loader = AnnotationConfigContextLoader.class)
 public class InventoryServiceTest {
 
-	@Autowired
+	//@Autowired
 	InventoryService inventoryServiceImpl;
 	
-	@Test
+	//@Test
 	public void test() {
 		
 		for(InventoryEntity inventoryEntity : (List<InventoryEntity>)inventoryServiceImpl.fetchInventoryList(new HashMap<String,Integer>()))
