@@ -2,6 +2,7 @@ package com.storemgmt.service;
 
 import java.util.List;
 
+import org.joda.time.LocalDate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -15,19 +16,42 @@ public class ProductServiceImpl implements ProductService {
 
 	@Autowired
 	private ProductDaoImpl productDaoImpl;
+	
+	
+	
 	public void addProduct(ProductEntity productEntity) {
+		
+		productEntity.setCreatedOn(LocalDate.now());
+		productEntity.setProdEntryDate(LocalDate.now());
 		productDaoImpl.addProduct(productEntity);
 
 	}
 
-	public void updateProduct(ProductEntity productEntity) {
-		productDaoImpl.updateProduct(productEntity);
+	public void updateProduct(ProductEntity productEntity) throws Exception {
+		
+		if(getProduct(productEntity) == null)
+		{
+			throw new Exception();
+		}
+		else
+		{
+			productDaoImpl.updateProduct(productEntity);
+		}
 
 	}
 
-	public ProductEntity getProduct(ProductEntity productEntity) {
+	public ProductEntity getProduct(ProductEntity productEntity) throws Exception{
 		
-		return productDaoImpl.getProduct(productEntity);
+		ProductEntity productReturned = productDaoImpl.getProduct(productEntity);
+		
+		if(productReturned == null)
+		{
+			throw new Exception();
+		}
+		else{			
+			return productReturned;
+		}
+		
 	}
 
 	public List<ProductEntity> getProducts() {
@@ -35,4 +59,20 @@ public class ProductServiceImpl implements ProductService {
 		return productDaoImpl.getProducts();
 	}
 
+	public boolean searchForDuplicateProductName(String productName){
+		
+		String existingProductName;
+		Boolean booleanFlag = false;
+		for(ProductEntity productEntity : this.getProducts())
+		{
+			existingProductName = productEntity.getProdName();
+			if(existingProductName.equalsIgnoreCase(productName) || existingProductName.toLowerCase().replaceAll("\\s+{2,}", "").trim().contentEquals(productName.toLowerCase().replaceAll("\\s+{2,}", "").trim()))
+			{
+				booleanFlag = true;
+			}			
+		}
+		
+		return booleanFlag;
+		
+	}
 }

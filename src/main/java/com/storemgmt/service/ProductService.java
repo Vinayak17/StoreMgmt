@@ -8,9 +8,9 @@ public interface ProductService {
 
 	public void addProduct(ProductEntity productEntity);
 	
-	public void updateProduct(ProductEntity productEntity);
+	public void updateProduct(ProductEntity productEntity) throws Exception;
 	
-	public ProductEntity getProduct(ProductEntity productEntity);
+	public ProductEntity getProduct(ProductEntity productEntity) throws Exception;
 	
 	public List<ProductEntity> getProducts();
 }

@@ -15,27 +15,39 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.storemgmt.bean.PurchaseTransactionFormBean;
+import com.storemgmt.bean.SaleTransactionFormBean;
 import com.storemgmt.model.TransactionEntity;
+import com.storemgmt.service.PurchaseTransactionServiceImpl;
 import com.storemgmt.service.TransactionService;
 
 @Controller
-public class StoremgmtController {
-
+@RequestMapping("transaction")
+public class TransactionController {
+	
 	@Autowired
 	@Qualifier("PurchaseTransactionServiceImpl")
-	TransactionService transactionService;
+	TransactionService purchaseTransactionServiceImpl ;
 	
-	//@RequestMapping(value = "/", method = RequestMethod.GET)
-	public ModelAndView indexPageRequest(Model model)
+	@Autowired
+	@Qualifier("SaleTransactionServiceImpl")
+	TransactionService saleTransactionServiceImpl ;
+	
+	
+	@RequestMapping("/")
+	public ModelAndView getHomePage(Model model,PurchaseTransactionFormBean purchaseTransactionFormBean,SaleTransactionFormBean saleTransactionFormBean)
 	{
-		model.addAttribute("transactionEntity",new TransactionEntity());
-		return new ModelAndView("transactions");
+		model.addAttribute("purchaseTransactionFormBean", purchaseTransactionFormBean);
+		model.addAttribute("saleTransactionFormBean", saleTransactionFormBean);
+		
+		return new ModelAndView("transaction");
+		
 	}
 	
-	@RequestMapping(value = "createTansaction", method = RequestMethod.POST)
-	public ModelAndView createTransaction(@ModelAttribute("transactionEntity") TransactionEntity transactionEntity,ModelAndView modelAndView) throws Exception
+	@RequestMapping(value = "purchaseTransaction", method = RequestMethod.POST)
+	public ModelAndView createTransaction(@ModelAttribute("purchaseTransactionFormBean") PurchaseTransactionFormBean purchaseTransactionFormBean,ModelAndView modelAndView) throws Exception
 	{
-		transactionService.createTransaction(transactionEntity);		
+		purchaseTransactionServiceImpl.createTransaction(purchaseTransactionFormBean.convertToTransactionEntity());		
 		return new ModelAndView("index");
 	}
 	

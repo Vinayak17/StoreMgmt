@@ -7,7 +7,7 @@ import com.storemgmt.model.TransactionEntity;
 
 public interface TransactionService {
 
-	public void createTransaction(TransactionEntity transactionEntity);
+	public void createTransaction(TransactionEntity transactionEntity) throws Exception;
 	
 	public void updateTransaction(TransactionEntity transactionEntity);
 	

@@ -1,15 +1,13 @@
 package com.storemgmt.model;
 
-import java.util.Date;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
-import javax.validation.constraints.Digits;
 
+import org.joda.time.LocalDate;
 import org.springframework.stereotype.Component;
 
 @Component("ProductEntity")
@@ -34,12 +32,6 @@ public class ProductEntity {
 	@Column(name = "prod_sub_type")
 	protected int prodSubType;
 	
-	/*@Column(name = "prod_mfg_Id")
-	protected int prodMfgId;
-	
-	@Column(name = "prod_mfg_name")
-	protected int prodMfgName;
-	*/
 	@Column(name = "prod_name")
 	protected String prodName;
 	
@@ -47,24 +39,24 @@ public class ProductEntity {
 	protected String prodDesc;
 	
 	@Column(name = "prod_Entry_dt")
-	protected Date prodEntryDate;
+	protected LocalDate prodEntryDate;
 	
 	@Column(name = "prod_usg_flg")
-	protected Date prodUsgFlg;
+	protected LocalDate prodUsgFlg;
 	
 	@Column(name = "created_by")
 	protected String createdBy;
 	
 	@Column(name = "created_on")
-	protected Date createdOn;
+	protected LocalDate createdOn;
 	
 	@Column(name = "updated_by")
 	protected String updatedBy;
 	
 	@Column(name = "updated_on")
-	protected Date updatedOn;
+	protected LocalDate updatedOn;
 	
-
+	
 	public long getProdId() {
 		return prodId;
 	}
@@ -104,7 +96,7 @@ public class ProductEntity {
 	public void setProdName(String prodName) {
 		this.prodName = prodName;
 	}
-	
+
 	public String getProdDesc() {
 		return prodDesc;
 	}
@@ -113,35 +105,19 @@ public class ProductEntity {
 		this.prodDesc = prodDesc;
 	}
 
-	public Date getProdEntryDate() {
+	public LocalDate getProdEntryDate() {
 		return prodEntryDate;
 	}
 
-	public void setProdEntryDate(Date prodEntryDate) {
+	public void setProdEntryDate(LocalDate prodEntryDate) {
 		this.prodEntryDate = prodEntryDate;
-	}	
-	
-	/*public int getProdMfgId() {
-		return prodMfgId;
 	}
 
-	public void setProdMfgId(int prodMfgId) {
-		this.prodMfgId = prodMfgId;
-	}
-
-	public int getProdMfgName() {
-		return prodMfgName;
-	}
-
-	public void setProdMfgName(int prodMfgName) {
-		this.prodMfgName = prodMfgName;
-	}*/
-	
-	public Date getProdUsgFlg() {
+	public LocalDate getProdUsgFlg() {
 		return prodUsgFlg;
 	}
 
-	public void setProdUsgFlg(Date prodUsgFlg) {
+	public void setProdUsgFlg(LocalDate prodUsgFlg) {
 		this.prodUsgFlg = prodUsgFlg;
 	}
 
@@ -153,11 +129,11 @@ public class ProductEntity {
 		this.createdBy = createdBy;
 	}
 
-	public Date getCreatedOn() {
+	public LocalDate getCreatedOn() {
 		return createdOn;
 	}
 
-	public void setCreatedOn(Date createdOn) {
+	public void setCreatedOn(LocalDate createdOn) {
 		this.createdOn = createdOn;
 	}
 
@@ -169,19 +145,14 @@ public class ProductEntity {
 		this.updatedBy = updatedBy;
 	}
 
-	public Date getUpdatedOn() {
+	public LocalDate getUpdatedOn() {
 		return updatedOn;
 	}
 
-	public void setUpdatedOn(Date updatedOn) {
+	public void setUpdatedOn(LocalDate updatedOn) {
 		this.updatedOn = updatedOn;
 	}
 
-	public int hashCode()
-	{
-		return (int)(this.prodId/10000);
-	}
-	
 	public boolean equals(Object obj)
 	{
 		if(obj == null || !(obj instanceof ProductEntity))

@@ -35,8 +35,17 @@ public class TransactionEntity implements Auditable {
 	@Column(name = "cust_id")
 	protected long custId;
 	
+	@Column(name = "cust_name")
+	protected String custName;
+	
 	@Column(name = "user_id")
 	protected long userId;
+
+	@Column(name = "supplier_id")
+	protected long SupplierId;
+	
+	@Column(name = "supplier_name")
+	protected String supplierName;
 	
 	@Column(name = "txn_sub_total")
 	protected float txnSubTotal;
@@ -181,6 +190,30 @@ public class TransactionEntity implements Auditable {
 
 	public void setItemList(List<InventoryEntity> itemList) {
 		this.itemList = itemList;
+	}	
+
+	public String getCustName() {
+		return custName;
+	}
+
+	public void setCustName(String custName) {
+		this.custName = custName;
+	}
+
+	public long getSupplierId() {
+		return SupplierId;
+	}
+
+	public void setSupplierId(long supplierId) {
+		SupplierId = supplierId;
+	}
+
+	public String getSupplierName() {
+		return supplierName;
+	}
+
+	public void setSupplierName(String supplierName) {
+		this.supplierName = supplierName;
 	}
 
 	public String getCreatedBy() {

@@ -12,6 +12,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.storemgmt.dao.SaleTransactionDaoImpl;
 import com.storemgmt.dao.TransactionDao;
 import com.storemgmt.model.InventoryEntity;
+import com.storemgmt.model.ProductEntity;
 import com.storemgmt.model.TransactionEntity;
 
 @Service("SaleTransactionServiceImpl")
@@ -26,21 +27,34 @@ public class SaleTransactionServiceImpl extends GenericTransactionServiceImpl {
 	@Qualifier("SaleTransactionDaoImpl")
 	TransactionDao saleTransactionDao;
 	
-	
-	
+	@Autowired
+	ProductService productServiceImpl;
+		
 	
 	protected final static Logger debugLogger = Logger.getLogger("debugLogger");
 	
 	@Transactional(readOnly = false)
-	public void createTransaction(TransactionEntity transactionEntity) {
+	public void createTransaction(TransactionEntity transactionEntity) throws Exception {
 		
 		debugLogger.debug("createTransaction called from SaleTransactionServiceImpl ");
-		
+				
+		String prodName ;
+		ProductEntity productEntity;
 		transactionEntity.setCrDrFlg(CREDIT);
 		transactionEntity.setSellBuyFlg(SELL);
+		
+		// Code to get the product name for each item in the itemList
 		for(InventoryEntity inventoryEntity : transactionEntity.getItemList()){
+			
+			
+			productEntity = new ProductEntity();
+			productEntity.setProdId(inventoryEntity.getProdId());
+			prodName = productServiceImpl.getProduct(productEntity).getProdName();
+			
+			inventoryEntity.setProdName(prodName);
 			inventoryEntity.setCrDrFlag(DEBIT);
 		}
+		
 		genericTransactionDao.createTransaction(transactionEntity);
 	}
 

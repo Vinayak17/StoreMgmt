@@ -38,7 +38,7 @@ public class GenericTransactionServiceImpl implements TransactionService {
 	
 	
 	@Transactional(readOnly = false)
-	public void createTransaction(TransactionEntity transactionEntity) {
+	public void createTransaction(TransactionEntity transactionEntity) throws Exception {
 		logger.debug("createTransaction(TransactionEntity TransactionEntity) from GenericTransactionServiceImpl called which in calls createTransaction(transactionEntity) from transactionDao ");
 		transactionDao.createTransaction(transactionEntity);
 	}

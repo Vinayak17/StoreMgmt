@@ -41,10 +41,10 @@ public class InventoryEntity implements Auditable {
 	protected String prodName;
 	
 	@Column(name = "qty")
-	protected int qty;
+	protected float qty;
 	
 	@Column(name = "ppu")
-	protected int ppu;
+	protected float ppu;
 	
 	@Column(name = "invent_txn_dt")
 	protected Date invTxnDt;
@@ -57,6 +57,9 @@ public class InventoryEntity implements Auditable {
 	
 	@Column(name = "mfg_name")
 	protected String mfgName;
+	
+	@Column(name = "tax_amt")
+	protected float taxAmt;
 	
 	@Column(name = "created_by")
 	protected String createdBy;
@@ -79,6 +82,7 @@ public class InventoryEntity implements Auditable {
 		this.inventId = inventId;
 	}
 
+	//No need to explicitly declare it when you have oneToMany relation ship used
 	/*public long getTxnId() {
 		return txnId;
 	}
@@ -103,19 +107,19 @@ public class InventoryEntity implements Auditable {
 		this.prodName = prodName;
 	}
 
-	public int getQty() {
+	public float getQty() {
 		return qty;
 	}
 
-	public void setQty(int qty) {
+	public void setQty(float qty) {
 		this.qty = qty;
 	}
 
-	public int getPpu() {
+	public float getPpu() {
 		return ppu;
 	}
 
-	public void setPpu(int ppu) {
+	public void setPpu(float ppu) {
 		this.ppu = ppu;
 	}	
 
@@ -149,6 +153,15 @@ public class InventoryEntity implements Auditable {
 
 	public void setCrDrFlag(int crDrFlag) {
 		this.crDrFlag = crDrFlag;
+	}
+
+	
+	public float getTaxAmt() {
+		return taxAmt;
+	}
+
+	public void setTaxAmt(float taxAmt) {
+		this.taxAmt = taxAmt;
 	}
 
 	public String getCreatedBy() {
