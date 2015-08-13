@@ -14,6 +14,7 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -33,9 +34,12 @@ public class ProductController {
 	ProductService productServiceImpl;
 	
 	Validator validator;
-	 
+	
+	@Autowired
+	ValidatorFactory factory;
+	
 	@RequestMapping(value = "/", method = RequestMethod.GET)
-	public ModelAndView productsHomePage(Model model,ProductFormBean productFormBean)
+	public ModelAndView productsHomePage(Model model,ProductFormBean productFormBean,BindingResult result)
 	{
 		
 		List<ProductEntity> productList = productServiceImpl.getProducts();
@@ -45,18 +49,25 @@ public class ProductController {
 	}
 	
 	@RequestMapping(value ="add", method = RequestMethod.POST)
-	public ModelAndView addNewProduct(@Valid @ModelAttribute("productFormBean") ProductFormBean productFormBean,BindingResult result,Model model)
+	public ModelAndView addNewProduct(@ModelAttribute("productFormBean") ProductFormBean productFormBean,BindingResult result,Model model)
 	{
-		ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
+		 
 	     validator = factory.getValidator();
 		
-		Set<ConstraintViolation<ProductFormBean>> constraintViolations =
-                validator.validate( productFormBean );
+		Set<ConstraintViolation<ProductFormBean>> constraintViolations = validator.validate( productFormBean );
+		for(ConstraintViolation<ProductFormBean> x : constraintViolations)
+		{
+			result.addError(new FieldError("productFormBean", x.getPropertyPath().toString(), x.getMessage()) );
+		}
+		ProductEntity productEntity = productFormBean.convertProductFormBeanToEntity(productFormBean);
 		
-		System.out.println(constraintViolations.iterator().next().getMessage());
-		System.out.println(" Hello " +productFormBean.getProdName());
-		productFormBean.convertProductFormBeanToEntity(productFormBean);
-		System.out.println(result.hasErrors());
-		return new ModelAndView("products");
+		if(result.hasErrors())
+		{
+			return productsHomePage(model, productFormBean, result);
+		}
+		
+		productServiceImpl.addProduct(productEntity);
+		return new ModelAndView("redirect:/product/");
+		
 	}
 }

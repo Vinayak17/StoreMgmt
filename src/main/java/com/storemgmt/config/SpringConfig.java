@@ -1,5 +1,8 @@
 package com.storemgmt.config;
 
+import javax.validation.Validation;
+import javax.validation.ValidatorFactory;
+
 import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
@@ -39,4 +42,9 @@ public class SpringConfig {
         return messageSource;
     }
 	
+    @Bean
+    public ValidatorFactory getValidatorFactory(){
+    	
+    	return Validation.buildDefaultValidatorFactory();
+    }
 }

@@ -9,19 +9,16 @@
 <title>Products</title>
 </head>
 <body>
-<c:out value=" ${result}"></c:out>
 <div>
 	<table>
 		<thead><tr><td>Product Name</td><td>Product Type</td><td>Product Subtype</td><td>Entry Date</td><td>Usage Flag</td></tr></thead>
 		<tbody>	
-				<c:if test="${fn:length(model.productList) == 0}">
+				<c:if test="${fn:length(productList) == 0}">
 				<tr><td><c:out value="Sorry,No records"></c:out></td></tr>
 				</c:if>
 			
-				<c:forEach items='${model.productList}'  var= "product">
-				
-					<tr><td><c:out value='${2>3}'/> </td></tr>
-				${model.productList}
+				<c:forEach items='${productList}'  var= "product">				
+					<tr><td><c:out value='${product.prodName }'/> </td><td><c:out value='${product.prodType}'/> </td><td><c:out value='${product.prodSubType }'/> </td><td><c:out value='${product.prodEntryDate }'/> </td><td><c:out value='${product.prodUsgFlg }'/> </td></tr>
 				</c:forEach>
 		</tbody>
 	</table>
