@@ -35,7 +35,7 @@ public class ProductFormBean {
 	
 	protected LocalDate prodEntryDate;
 	
-	protected LocalDate prodUsgFlg;
+	protected byte prodUsgFlg;
 
 	protected ProductEntity productEntity;
 	
@@ -95,11 +95,11 @@ public class ProductFormBean {
 		this.prodEntryDate = prodEntryDate;
 	}
 
-	public LocalDate getProdUsgFlg() {
+	public byte getProdUsgFlg() {
 		return prodUsgFlg;
 	}
 
-	public void setProdUsgFlg(LocalDate prodUsgFlg) {
+	public void setProdUsgFlg(byte prodUsgFlg) {
 		this.prodUsgFlg = prodUsgFlg;
 	}
 

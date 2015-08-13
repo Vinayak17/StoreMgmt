@@ -7,6 +7,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+import org.hibernate.annotations.Type;
 import org.joda.time.LocalDate;
 import org.springframework.stereotype.Component;
 
@@ -39,21 +40,25 @@ public class ProductEntity {
 	protected String prodDesc;
 	
 	@Column(name = "prod_Entry_dt")
+	@Type(type="org.jadira.usertype.dateandtime.joda.PersistentLocalDate")
 	protected LocalDate prodEntryDate;
 	
 	@Column(name = "prod_usg_flg")
-	protected LocalDate prodUsgFlg;
+	protected byte prodUsgFlg;
 	
 	@Column(name = "created_by")
+	@Type(type="org.jadira.usertype.dateandtime.joda.PersistentLocalDate")
 	protected String createdBy;
 	
 	@Column(name = "created_on")
+	@Type(type="org.jadira.usertype.dateandtime.joda.PersistentLocalDate")
 	protected LocalDate createdOn;
 	
 	@Column(name = "updated_by")
 	protected String updatedBy;
 	
 	@Column(name = "updated_on")
+	@Type(type="org.jadira.usertype.dateandtime.joda.PersistentLocalDate")
 	protected LocalDate updatedOn;
 	
 	
@@ -113,11 +118,11 @@ public class ProductEntity {
 		this.prodEntryDate = prodEntryDate;
 	}
 
-	public LocalDate getProdUsgFlg() {
+	public byte getProdUsgFlg() {
 		return prodUsgFlg;
 	}
 
-	public void setProdUsgFlg(LocalDate prodUsgFlg) {
+	public void setProdUsgFlg(byte prodUsgFlg) {
 		this.prodUsgFlg = prodUsgFlg;
 	}
 

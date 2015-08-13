@@ -14,6 +14,8 @@ import com.storemgmt.model.ProductEntity;
 @Transactional
 public class ProductServiceImpl implements ProductService {
 
+	
+	private static final byte USAGE_FLAG = 1;
 	@Autowired
 	private ProductDaoImpl productDaoImpl;
 	
@@ -23,6 +25,7 @@ public class ProductServiceImpl implements ProductService {
 		
 		productEntity.setCreatedOn(LocalDate.now());
 		productEntity.setProdEntryDate(LocalDate.now());
+		productEntity.setProdUsgFlg(USAGE_FLAG);
 		productDaoImpl.addProduct(productEntity);
 
 	}
