@@ -16,6 +16,7 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
@@ -47,27 +48,45 @@ public class ProductController {
 		model.addAttribute("productFormBean", productFormBean);
 		return new ModelAndView("products");
 	}
-	
-	@RequestMapping(value ="add", method = RequestMethod.POST)
-	public ModelAndView addNewProduct(@ModelAttribute("productFormBean") ProductFormBean productFormBean,BindingResult result,Model model)
+
+	@RequestMapping(value ="/add", method = RequestMethod.POST)
+	public ModelAndView addOrUpdateProduct(@ModelAttribute("productFormBean") ProductFormBean productFormBean,BindingResult result,Model model) throws Exception
 	{
-		 
-	     validator = factory.getValidator();
-		
-		Set<ConstraintViolation<ProductFormBean>> constraintViolations = validator.validate( productFormBean );
-		for(ConstraintViolation<ProductFormBean> x : constraintViolations)
+		if(productFormBean.getProdId() == 0)
 		{
-			result.addError(new FieldError("productFormBean", x.getPropertyPath().toString(), x.getMessage()) );
+		    validator = factory.getValidator();
+			Set<ConstraintViolation<ProductFormBean>> constraintViolations = validator.validate( productFormBean );
+			for(ConstraintViolation<ProductFormBean> x : constraintViolations)
+			{
+				result.addError(new FieldError("productFormBean", x.getPropertyPath().toString(), x.getMessage()) );
+			}
+			ProductEntity productEntity = productFormBean.convertProductFormBeanToEntity(productFormBean);
+
+			if(result.hasErrors())
+			{
+				return productsHomePage(model, productFormBean, result);
+			}
+			productServiceImpl.addProduct(productEntity);
 		}
-		ProductEntity productEntity = productFormBean.convertProductFormBeanToEntity(productFormBean);
-		
-		if(result.hasErrors())
+		else
 		{
-			return productsHomePage(model, productFormBean, result);
+			ProductEntity productEntity = productFormBean.convertProductFormBeanToEntity(productFormBean);
+			productServiceImpl.updateProduct(productEntity);
 		}
-		
-		productServiceImpl.addProduct(productEntity);
 		return new ModelAndView("redirect:/product/");
-		
+
 	}
+
+	@RequestMapping(value="/edit/{id}",method = RequestMethod.GET)
+	public String editProduct(@PathVariable("id") long id,Model model)
+	{
+		model.addAttribute("productFormBean", productServiceImpl.getProductById(id));
+		List<ProductEntity> productList = productServiceImpl.getProducts();
+		model.addAttribute("productList", productList);
+		return "products";
+
+	}
+
+
+
 }

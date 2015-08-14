@@ -22,8 +22,8 @@ public class ProductDaoImpl extends AbstractDao implements ProductDao {
 	}
 
 	public boolean updateProduct(ProductEntity productEntity) {
-		getSession().update(productEntity);
-		return false;
+		getSession().merge(productEntity);
+		return true;
 	}
 
 	public ProductEntity getProduct(ProductEntity productEntity) {
@@ -35,6 +35,11 @@ public class ProductDaoImpl extends AbstractDao implements ProductDao {
 	public List<ProductEntity> getProducts() {
 		Criteria criteria = getSession().createCriteria(ProductEntity.class);
 		return (List<ProductEntity>)criteria.list();
+	}
+
+	public ProductEntity getProductById(long productId) {
+		ProductEntity productEntity = (ProductEntity)getSession().load(ProductEntity.class, new Long(productId));
+		return productEntity;
 	}
 
 }

@@ -18,7 +18,11 @@ public interface ProductDao {
 	public ProductEntity getProduct(ProductEntity productEntity);
 	
 	public List<ProductEntity> getProducts();
-	
+
+	public ProductEntity getProductById(long productId);
+
+
+
 	//public long addProducts(List<ProductEntity> productEntityList);
 	
 	//public boolean deleteProducts(List<ProductEntity> productEntityList);

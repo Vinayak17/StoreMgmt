@@ -111,7 +111,7 @@ public class ProductFormBean {
 		productEntity.setProdEntryDate(productFormBean.getProdEntryDate());
 		productEntity.setProdId(productFormBean.getProdId());
 		productEntity.setProdName(productFormBean.getProdName());
-		productEntity.setProdEntryDate(productFormBean.getProdEntryDate());
+		//productEntity.setProdEntryDate(productFormBean.getProdEntryDate());
 		productEntity.setProdUsgFlg(productFormBean.getProdUsgFlg());
 		productEntity.setProdType(productFormBean.getProdType());
 		productEntity.setProdSubType(productFormBean.getProdSubType());

@@ -24,4 +24,9 @@ xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns
   	<servlet-name>dispatcherServlet</servlet-name>
   	<url-pattern>/</url-pattern>
   </servlet-mapping>
+
+  <listener>
+    <listener-class>com.storemgmt.listener.MySpecialListener</listener-class>
+  </listener>
+
 </web-app>
