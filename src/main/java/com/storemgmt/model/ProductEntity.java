@@ -39,18 +39,18 @@ public class ProductEntity {
 	@Column(name = "prod_desc")
 	protected String prodDesc;
 	
-	@Column(name = "prod_Entry_dt")
+	@Column(name = "prod_Entry_dt",updatable=false)
 	@Type(type="org.jadira.usertype.dateandtime.joda.PersistentLocalDate")
 	protected LocalDate prodEntryDate;
 	
 	@Column(name = "prod_usg_flg")
 	protected byte prodUsgFlg;
 	
-	@Column(name = "created_by")
+	@Column(name = "created_by",updatable=false)
 	@Type(type="org.jadira.usertype.dateandtime.joda.PersistentLocalDate")
 	protected String createdBy;
 	
-	@Column(name = "created_on")
+	@Column(name = "created_on",updatable=false)
 	@Type(type="org.jadira.usertype.dateandtime.joda.PersistentLocalDate")
 	protected LocalDate createdOn;
 	

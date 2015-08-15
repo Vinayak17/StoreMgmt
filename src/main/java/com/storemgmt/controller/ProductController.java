@@ -60,30 +60,30 @@ public class ProductController {
 			{
 				result.addError(new FieldError("productFormBean", x.getPropertyPath().toString(), x.getMessage()) );
 			}
-			ProductEntity productEntity = productFormBean.convertProductFormBeanToEntity(productFormBean);
+			//ProductEntity productEntity = productFormBean.convertProductFormBeanToEntity(productFormBean);
 
 			if(result.hasErrors())
 			{
 				return productsHomePage(model, productFormBean, result);
 			}
-			productServiceImpl.addProduct(productEntity);
+			productServiceImpl.addProduct(productFormBean);
 		}
 		else
 		{
-			ProductEntity productEntity = productFormBean.convertProductFormBeanToEntity(productFormBean);
-			productServiceImpl.updateProduct(productEntity);
+			//ProductEntity productEntity = productFormBean.convertProductFormBeanToEntity(productFormBean);
+			productServiceImpl.updateProduct(productFormBean);
 		}
 		return new ModelAndView("redirect:/product/");
 
 	}
 
 	@RequestMapping(value="/edit/{id}",method = RequestMethod.GET)
-	public String editProduct(@PathVariable("id") long id,Model model)
+	public ModelAndView editProduct(@PathVariable("id") long id,Model model)
 	{
 		model.addAttribute("productFormBean", productServiceImpl.getProductById(id));
 		List<ProductEntity> productList = productServiceImpl.getProducts();
 		model.addAttribute("productList", productList);
-		return "products";
+		return new ModelAndView("products");
 
 	}
 

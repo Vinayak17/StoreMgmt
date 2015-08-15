@@ -103,19 +103,7 @@ public class ProductFormBean {
 		this.prodUsgFlg = prodUsgFlg;
 	}
 
-	public ProductEntity convertProductFormBeanToEntity(ProductFormBean productFormBean)
-	{
-		productEntity = new ProductEntity();
-		productEntity.setBarCode(productFormBean.getBarCode());
-		productEntity.setProdDesc(productFormBean.getProdDesc());
-		productEntity.setProdEntryDate(productFormBean.getProdEntryDate());
-		productEntity.setProdId(productFormBean.getProdId());
-		productEntity.setProdName(productFormBean.getProdName());
+
 		//productEntity.setProdEntryDate(productFormBean.getProdEntryDate());
-		productEntity.setProdUsgFlg(productFormBean.getProdUsgFlg());
-		productEntity.setProdType(productFormBean.getProdType());
-		productEntity.setProdSubType(productFormBean.getProdSubType());
 		
-		return productEntity;
-	}
 }

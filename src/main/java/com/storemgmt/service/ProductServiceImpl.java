@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.storemgmt.bean.ProductFormBean;
 import com.storemgmt.dao.ProductDaoImpl;
 import com.storemgmt.model.ProductEntity;
 
@@ -21,8 +22,8 @@ public class ProductServiceImpl implements ProductService {
 	
 	
 	
-	public void addProduct(ProductEntity productEntity) {
-		
+	public void addProduct(ProductFormBean productFormBean) {
+		ProductEntity productEntity = convertProductFormBeanToEntity(productFormBean);
 		productEntity.setCreatedOn(LocalDate.now());
 		productEntity.setProdEntryDate(LocalDate.now());
 		productEntity.setProdUsgFlg(USAGE_FLAG);
@@ -30,21 +31,22 @@ public class ProductServiceImpl implements ProductService {
 
 	}
 
-	public void updateProduct(ProductEntity productEntity) throws Exception {
+	public void updateProduct(ProductFormBean productFormBean) throws Exception {
 		
-		if(getProduct(productEntity) == null)
+		if(getProduct(productFormBean) == null)
 		{
 			throw new Exception();
 		}
 		else
 		{
+			ProductEntity productEntity = convertProductFormBeanToEntity(productFormBean);
 			productDaoImpl.updateProduct(productEntity);
 		}
 
 	}
 
-	public ProductEntity getProduct(ProductEntity productEntity) throws Exception{
-		
+	public ProductFormBean getProduct(ProductFormBean productFormBean) throws Exception{
+		ProductEntity productEntity = convertProductFormBeanToEntity(productFormBean);
 		ProductEntity productReturned = productDaoImpl.getProduct(productEntity);
 		
 		if(productReturned == null)
@@ -52,7 +54,8 @@ public class ProductServiceImpl implements ProductService {
 			throw new Exception();
 		}
 		else{			
-			return productReturned;
+			ProductFormBean returnedProductFormBean = convertProductEntityToProductFormBean(productReturned);
+			return returnedProductFormBean;
 		}
 		
 	}
@@ -77,5 +80,39 @@ public class ProductServiceImpl implements ProductService {
 		
 		return booleanFlag;
 		
+	}
+	public ProductFormBean getProductById(long productId)
+	{
+		ProductEntity newProductEntity = new ProductEntity();
+		newProductEntity.setProdId(productId);
+		ProductEntity productEntity = productDaoImpl.getProduct(newProductEntity);
+		ProductFormBean productFormBean = convertProductEntityToProductFormBean(productEntity);
+		return productFormBean;
+	}
+	private ProductFormBean convertProductEntityToProductFormBean(ProductEntity productEntity)
+	{
+		ProductFormBean productFormBean = new ProductFormBean();
+		productFormBean.setBarCode(productEntity.getBarCode());
+		productFormBean.setProdDesc(productEntity.getProdDesc());
+		productFormBean.setProdEntryDate(productEntity.getProdEntryDate());
+		productFormBean.setProdId(productEntity.getProdId());
+		productFormBean.setProdName(productEntity.getProdName());
+		productFormBean.setProdSubType(productEntity.getProdSubType());
+		productFormBean.setProdType(productEntity.getProdType());
+		productFormBean.setProdUsgFlg(productEntity.getProdUsgFlg());
+		return productFormBean;
+	}
+	private ProductEntity convertProductFormBeanToEntity(ProductFormBean productFormBean)
+	{
+		ProductEntity productEntity = new ProductEntity();
+		productEntity.setBarCode(productFormBean.getBarCode());
+		productEntity.setProdDesc(productFormBean.getProdDesc());
+		productEntity.setProdEntryDate(productFormBean.getProdEntryDate());
+		productEntity.setProdId(productFormBean.getProdId());
+		productEntity.setProdName(productFormBean.getProdName());
+		productEntity.setProdUsgFlg(productFormBean.getProdUsgFlg());
+		productEntity.setProdType(productFormBean.getProdType());
+		productEntity.setProdSubType(productFormBean.getProdSubType());
+		return productEntity;
 	}
 }
