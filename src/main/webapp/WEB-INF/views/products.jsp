@@ -28,20 +28,29 @@
 				</c:forEach>
 		</tbody>
 	</table>
-
+<table>
 <form:form method= "post" action = '/storemgmt/product/add' modelAttribute='productFormBean'>
-		<form:label path='prodName'>Product Name</form:label>
-			<form:input path='prodName' id='prodName' tabindex='1'/><form:errors path="prodName"/>
-		<form:label path='prodType'>Product Type</form:label>
-			<form:input path='prodType' id='prodType' tabindex='2'/><form:errors path="prodType"/>
-		<form:label path='prodSubType'>Product SubType</form:label>
-			<form:input path='prodSubType' id='prodSubType' tabindex='3'/><form:errors path="prodSubType"/>
-		<form:label path='prodDesc'>Product Desc</form:label>
-			<form:input path='prodDesc' id='prodDesc' tabindex='4' /><form:errors path="prodDesc"/>
-		<form:label path='barCode'>Bar Code</form:label>
-			<form:input path='barCode' id='barCode' tabindex='5'/><form:errors path="barCode"/>
-		<button type="Submit"> Submit</button>
-	</form:form>
+		<tr><td><form:label path='prodName'>Product Name</form:label></td></tr>
+			<tr><td><form:input path='prodName' id='prodName' tabindex='1'/></td><td><form:errors path="prodName"/></td></tr>
+			
+		<tr><td><form:label path='prodType'>Product Type</form:label></td></tr>
+			<tr><td><form:input path='prodType' id='prodType' tabindex='2'/></td><td><form:errors path="prodType"/></td></tr>
+			
+		<tr><td><form:label path='prodSubType'>Product SubType</form:label></td></tr>
+			<tr><td><form:input path='prodSubType' id='prodSubType' tabindex='3'/></td><td><form:errors path="prodSubType"/></td></tr>
+			
+		<tr><td><form:label path='prodDesc'>Product Desc</form:label></td></tr>
+			<tr><td><form:input path='prodDesc' id='prodDesc' tabindex='4' /></td><td><form:errors path="prodDesc"/></td></tr>
+			
+		<tr><td><form:label path='barCode'>Bar Code</form:label></td></tr>
+			<tr><td><form:input path='barCode' id='barCode' tabindex='5'/></td><td><form:errors path="barCode"/></td></tr>
+		
+		
+			<tr><td><form:hidden path='prodId' id='prodId'/></td></tr>
+				
+		<tr><td><button type="Submit" tabindex="6"> Submit</button></td></tr>
+</form:form>
+</table>
 </div>
 </body>
 </html>
