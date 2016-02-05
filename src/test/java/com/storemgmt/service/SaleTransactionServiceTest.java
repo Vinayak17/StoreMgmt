@@ -12,6 +12,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.joda.time.LocalDate;
+import org.joda.time.LocalDateTime;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -32,7 +33,7 @@ import com.storemgmt.model.InventoryEntity;
 import com.storemgmt.model.ProductEntity;
 import com.storemgmt.model.TransactionEntity;
 
-@RunWith(SpringJUnit4ClassRunner.class)
+//@RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(classes = SpringConfig.class, loader = AnnotationConfigContextLoader.class)
 public class SaleTransactionServiceTest {
 	
@@ -109,8 +110,7 @@ public class SaleTransactionServiceTest {
 				}
 				
 				transactionEntity.setCustId(99676476L);
-				transactionEntity.setTxnDt(new Date());
-				transactionEntity.setTrueDt(new Date());
+				transactionEntity.setTxnDt(new LocalDateTime());
 				transactionEntity.setTxnStatus(1);
 				transactionEntity.setTxnSubTotal(91);
 				transactionEntity.setTxnTotal(3200);
@@ -127,9 +127,8 @@ public class SaleTransactionServiceTest {
 		
 		transactionEntity.setCustId(12345L);
 		transactionEntity.setItemList(getItemList());
-		transactionEntity.setTrueDt(new Date());
 		transactionEntity.setTxnAmtPaid(300.00f);
-		transactionEntity.setTxnDt(new Date());
+		transactionEntity.setTxnDt(new LocalDateTime());
 		
 		return transactionEntity;
 	}
@@ -161,8 +160,8 @@ public class SaleTransactionServiceTest {
 	private ProductEntity getProduct() {
 		
 		productEntity.setProdName("Bhujia");
-		productEntity.setProdType(1);
-		productEntity.setProdSubType(0);
+		//productEntity.setProdType(ProductType.TYPE1);
+		//productEntity.setProdSubType(0);
 		productEntity.setProdDesc("Bhujia");
 		productEntity.setProdEntryDate(LocalDate.now());
 				

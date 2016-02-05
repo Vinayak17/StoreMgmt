@@ -2,19 +2,27 @@ package com.storemgmt.model;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 import org.hibernate.annotations.Type;
 import org.joda.time.LocalDate;
+import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Repository;
 
-@Component("ProductEntity")
+import com.storemgmt.model.ProductType;
+import com.storemgmt.service.ProductService;
+
 @Entity(name = "ProductEntity")
 @Table(name = "PRODUCT_DETAILS")
-public class ProductEntity {
+public class ProductEntity implements IAuditable{
 	
 	@Id
 	//@Digits(integer = 4,fraction = 0)
@@ -26,18 +34,24 @@ public class ProductEntity {
 	protected long barCode;
 	
 	//@Digits(integer = 1,fraction=0)
-	@Column(name = "prod_type")
-	protected int prodType;
+	@ManyToOne
+	@JoinColumn(name = "prod_type")
+	//@Enumerated(EnumType.STRING)
+	protected ProductType prodType;
 	
 	//@Digits(integer = 1,fraction=0)
-	@Column(name = "prod_sub_type")
-	protected int prodSubType;
+	@ManyToOne
+	@JoinColumn(name = "prod_sub_type")
+	protected ProductSubType prodSubType;
 	
 	@Column(name = "prod_name")
 	protected String prodName;
 	
-	@Column(name = "prod_desc")
+	@Column(name = "prod_desc" )
 	protected String prodDesc;
+
+	@Column(name = "profit_percentage")
+	protected float profitPer;
 	
 	@Column(name = "prod_Entry_dt")
 	@Type(type="org.jadira.usertype.dateandtime.joda.PersistentLocalDate")
@@ -47,7 +61,6 @@ public class ProductEntity {
 	protected byte prodUsgFlg;
 	
 	@Column(name = "created_by")
-	@Type(type="org.jadira.usertype.dateandtime.joda.PersistentLocalDate")
 	protected String createdBy;
 	
 	@Column(name = "created_on")
@@ -78,19 +91,19 @@ public class ProductEntity {
 		this.barCode = barCode;
 	}
 
-	public int getProdType() {
+	public ProductType getProdType() {
 		return prodType;
 	}
 
-	public void setProdType(int prodType) {
+	public void setProdType(ProductType prodType) {
 		this.prodType = prodType;
 	}
 
-	public int getProdSubType() {
+	public ProductSubType getProdSubType() {
 		return prodSubType;
 	}
 
-	public void setProdSubType(int prodSubType) {
+	public void setProdSubType(ProductSubType prodSubType) {
 		this.prodSubType = prodSubType;
 	}
 
@@ -118,6 +131,14 @@ public class ProductEntity {
 		this.prodEntryDate = prodEntryDate;
 	}
 
+	public float getProfitPer() {
+		return profitPer;
+	}
+
+	public void setProfitPer(float profitPer) {
+		this.profitPer = profitPer;
+	}
+	
 	public byte getProdUsgFlg() {
 		return prodUsgFlg;
 	}
@@ -171,5 +192,15 @@ public class ProductEntity {
 	public String toString()
 	{
 		return "Product Name : "+ this.getProdName()+"\n Product type: "+ this.getProdType()+"\n Product Subtype: "+this.getProdSubType()+"\n Product desc: "+this.getProdDesc()+"\n Product Registered: "+this.getProdEntryDate()+"";
+	}
+
+	public long getId() {
+		// TODO Auto-generated method stub
+		return getProdId();
+	}
+
+	public String getLogDetail() {
+		// TODO Auto-generated method stub
+		return toString();
 	}
 }

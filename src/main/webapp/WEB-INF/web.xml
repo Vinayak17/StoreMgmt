@@ -20,13 +20,10 @@ xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns
     </init-param>
   	<load-on-startup>1</load-on-startup>
   </servlet>
+  
   <servlet-mapping>
   	<servlet-name>dispatcherServlet</servlet-name>
   	<url-pattern>/</url-pattern>
   </servlet-mapping>
-
-  <listener>
-    <listener-class>com.storemgmt.listener.MySpecialListener</listener-class>
-  </listener>
 
 </web-app>

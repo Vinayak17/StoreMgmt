@@ -20,7 +20,7 @@ import org.springframework.stereotype.Component;
 @Component("InventoryEntity")
 @Entity(name = "InventoryEntity")
 @Table(name = "inventory")
-public class InventoryEntity implements Auditable {
+public class InventoryEntity {
  
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)

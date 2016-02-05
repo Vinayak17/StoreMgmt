@@ -1,20 +1,17 @@
 package com.storemgmt.bean;
 
-
-
 import javax.validation.constraints.Min;
 
-import org.hibernate.annotations.NotFound;
 import org.hibernate.validator.constraints.NotBlank;
 import org.hibernate.validator.constraints.NotEmpty;
 import org.joda.time.LocalDate;
-import org.springframework.context.annotation.Scope;
-import org.springframework.stereotype.Component;
 
 import com.storemgmt.model.ProductEntity;
+import com.storemgmt.model.ProductSubType;
+import com.storemgmt.model.ProductType;
 
-@Component("ProductFormBean")
-@Scope("prototype")
+//@Component("ProductFormBean")
+//@Scope("prototype")   *** Only the stateless beans should be spring managed bean**
 public class ProductFormBean {
 	
 	
@@ -36,8 +33,6 @@ public class ProductFormBean {
 	protected LocalDate prodEntryDate;
 	
 	protected byte prodUsgFlg;
-
-	protected ProductEntity productEntity;
 	
 	public long getProdId() {
 		return prodId;
@@ -103,19 +98,38 @@ public class ProductFormBean {
 		this.prodUsgFlg = prodUsgFlg;
 	}
 
-	public ProductEntity convertProductFormBeanToEntity(ProductFormBean productFormBean)
-	{
-		productEntity = new ProductEntity();
-		productEntity.setBarCode(productFormBean.getBarCode());
-		productEntity.setProdDesc(productFormBean.getProdDesc());
-		productEntity.setProdEntryDate(productFormBean.getProdEntryDate());
-		productEntity.setProdId(productFormBean.getProdId());
-		productEntity.setProdName(productFormBean.getProdName());
-		//productEntity.setProdEntryDate(productFormBean.getProdEntryDate());
-		productEntity.setProdUsgFlg(productFormBean.getProdUsgFlg());
-		productEntity.setProdType(productFormBean.getProdType());
-		productEntity.setProdSubType(productFormBean.getProdSubType());
+	public ProductEntity toProductEntity(ProductEntity productEntity)
+	{		
+		productEntity.setBarCode(this.getBarCode());
+		productEntity.setProdDesc(this.getProdDesc());
+		productEntity.setProdEntryDate(this.getProdEntryDate());
+		productEntity.setProdId(this.getProdId());
+		productEntity.setProdName(this.getProdName());
+		//productEntity.setProdEntryDate(this.getProdEntryDate());
+		productEntity.setProdUsgFlg(this.getProdUsgFlg());
+		ProductType selectedProductType = new ProductType();
+		selectedProductType.setType_id(getProdType());
+		ProductSubType selectedProductSubType = new ProductSubType();
+		selectedProductSubType.setSubTypeId(getProdSubType());
+		productEntity.setProdType(selectedProductType);
+		productEntity.setProdSubType(selectedProductSubType);
 		
 		return productEntity;
+	}
+	
+	public static ProductFormBean toProductFormBean(ProductEntity productEntity)
+	{
+		ProductFormBean productFormBean = new ProductFormBean();
+		productFormBean.setBarCode(productEntity.getBarCode());
+		productFormBean.setProdDesc(productEntity.getProdDesc());
+		productFormBean.setProdEntryDate(productEntity.getProdEntryDate());
+		productFormBean.setProdId(productEntity.getProdId());
+		productFormBean.setProdName(productEntity.getProdName());
+		//productEntity.setProdEntryDate(this.getProdEntryDate());
+		productFormBean.setProdUsgFlg(productEntity.getProdUsgFlg());
+		productFormBean.setProdType(productEntity.getProdType().getType_id());
+		productFormBean.setProdSubType(productEntity.getProdSubType().getSubTypeId());
+		
+		return productFormBean;
 	}
 }

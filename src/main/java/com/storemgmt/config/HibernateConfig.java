@@ -4,6 +4,7 @@ import java.util.Properties;
 
 import javax.sql.DataSource;
 
+import org.hibernate.EmptyInterceptor;
 import org.hibernate.SessionFactory;
 import org.hibernate.internal.SessionFactoryImpl;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,6 +17,8 @@ import org.springframework.orm.hibernate4.HibernateTransactionManager;
 import org.springframework.orm.hibernate4.LocalSessionFactoryBean;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
+import com.storemgmt.util.AuditLogInterceptor;
+
 @Configuration
 @EnableTransactionManagement
 @PropertySource(value =  {"classpath:application.properties"})
@@ -24,6 +27,10 @@ public class HibernateConfig {
 
 	@Autowired
 	Environment environment;
+	
+	@Autowired
+	private EmptyInterceptor auditLogInterceptor;
+	
 	@Bean
 	public LocalSessionFactoryBean getSessionFactory()
 	{
@@ -61,6 +68,7 @@ public class HibernateConfig {
     public HibernateTransactionManager transactionManager(SessionFactory s) {
        HibernateTransactionManager txManager = new HibernateTransactionManager();
        txManager.setSessionFactory(s);
+       txManager.setEntityInterceptor(auditLogInterceptor);
        return txManager;
     }
 }

@@ -110,25 +110,6 @@ public class InventoryFormBean {
 		this.total = total;
 	}
 	
-	
-	public InventoryEntity convertToInventoryEntity()
-	{
-		inventoryEntity.setInventId(this.getInventId());
-		inventoryEntity.setInvTxnDt(this.getInventTxnDt());
-		inventoryEntity.setProdId(this.getProdId());
-		inventoryEntity.setProdName(this.getProdName());
-		inventoryEntity.setMfgId(this.getMfgId());
-		inventoryEntity.setMfgName(this.getMfgName());
-		inventoryEntity.setPpu(this.getPpu());
-		inventoryEntity.setQty(this.getQty());
-		inventoryEntity.setTaxAmt(this.getTaxAmt());
 		
-		return inventoryEntity;
-		
-	}
-	
-	
-	
-	
 }
 
