@@ -26,8 +26,8 @@
 					<c:forEach items='${productList}'  var= "product">
 						<tr>
 							<td><c:out value='${product.prodName }'/> </td>
-							<td><c:out value='${product.prodType}'/> </td>
-							<td><c:out value='${product.prodSubType }'/> </td>
+							<td><c:out value='${product.productCategoryName}'/> </td>
+							<td><c:out value='${product.productSubCategoryName }'/> </td>
 							<td><c:out value='${product.prodEntryDate }'/> </td>
 							<td><c:out value='${product.prodUsgFlg }'/> </td>
 							<td><a href='<c:url value="/product/edit/${product.prodId}" />'>Edit</a></td></tr>

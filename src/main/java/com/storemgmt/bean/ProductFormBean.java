@@ -7,8 +7,8 @@ import org.hibernate.validator.constraints.NotEmpty;
 import org.joda.time.LocalDate;
 
 import com.storemgmt.model.ProductEntity;
-import com.storemgmt.model.ProductSubType;
-import com.storemgmt.model.ProductType;
+import com.storemgmt.model.ProductSubCategoryEntity;
+import com.storemgmt.model.ProductCategoryEntity;
 
 //@Component("ProductFormBean")
 //@Scope("prototype")   *** Only the stateless beans should be spring managed bean**
@@ -20,9 +20,9 @@ public class ProductFormBean {
 	@Min(value = 4 , message = "Barcode huhuh")
 	protected long barCode;
 	
-	protected int prodType;
+	protected int prodCategory;
 	
-	protected int prodSubType;
+	protected int prodSubCategory;
 	
 	@NotBlank
 	protected String prodName;
@@ -33,6 +33,10 @@ public class ProductFormBean {
 	protected LocalDate prodEntryDate;
 	
 	protected byte prodUsgFlg;
+	
+	private String productCategoryName;
+	
+	private String productSubCategoryName;
 	
 	public long getProdId() {
 		return prodId;
@@ -50,20 +54,20 @@ public class ProductFormBean {
 		this.barCode = barCode;
 	}
 
-	public int getProdType() {
-		return prodType;
+	public int getProdCategory() {
+		return prodCategory;
 	}
 
-	public void setProdType(int prodType) {
-		this.prodType = prodType;
+	public void setProdCategory(int prodType) {
+		this.prodCategory = prodType;
 	}
 
-	public int getProdSubType() {
-		return prodSubType;
+	public int getProdSubCategory() {
+		return prodSubCategory;
 	}
 
-	public void setProdSubType(int prodSubType) {
-		this.prodSubType = prodSubType;
+	public void setProdSubCategory(int prodSubType) {
+		this.prodSubCategory = prodSubType;
 	}
 
 	public String getProdName() {
@@ -97,22 +101,51 @@ public class ProductFormBean {
 	public void setProdUsgFlg(byte prodUsgFlg) {
 		this.prodUsgFlg = prodUsgFlg;
 	}
+	
+	
+	public String getProductCategoryName() {
+		return productCategoryName;
+	}
+
+	public void setProductCategoryName(String productTypeName) {
+		this.productCategoryName = productTypeName;
+	}
+
+	public String getProductSubCategoryName() {
+		return productSubCategoryName;
+	}
+
+	public void setProductSubCategoryName(String productSubTypeName) {
+		this.productSubCategoryName = productSubTypeName;
+	}
 
 	public ProductEntity toProductEntity(ProductEntity productEntity)
-	{		
-		productEntity.setBarCode(this.getBarCode());
-		productEntity.setProdDesc(this.getProdDesc());
-		productEntity.setProdEntryDate(this.getProdEntryDate());
-		productEntity.setProdId(this.getProdId());
-		productEntity.setProdName(this.getProdName());
-		//productEntity.setProdEntryDate(this.getProdEntryDate());
-		productEntity.setProdUsgFlg(this.getProdUsgFlg());
-		ProductType selectedProductType = new ProductType();
-		selectedProductType.setType_id(getProdType());
-		ProductSubType selectedProductSubType = new ProductSubType();
-		selectedProductSubType.setSubTypeId(getProdSubType());
-		productEntity.setProdType(selectedProductType);
-		productEntity.setProdSubType(selectedProductSubType);
+	{	
+		if(getBarCode() != 0)
+			productEntity.setBarCode(this.getBarCode());
+		if(getProdDesc() != null)
+			productEntity.setProdDesc(this.getProdDesc());
+		if(getProdEntryDate() != null)
+			productEntity.setProdEntryDate(this.getProdEntryDate());
+		if(getProdId() != 0)
+			productEntity.setProdId(this.getProdId());
+		if(getProdName() != null)
+			productEntity.setProdName(this.getProdName());
+		if(getProdUsgFlg() != 0)
+			productEntity.setProdUsgFlg(this.getProdUsgFlg());
+		if(getProdCategory() != 0)
+		{
+			ProductCategoryEntity selectedProductType = new ProductCategoryEntity();
+			selectedProductType.setCategoryId(getProdCategory());
+			productEntity.setProdType(selectedProductType);
+		}
+		
+		if(getProdSubCategory() != 0)
+		{
+			ProductSubCategoryEntity selectedProductSubType = new ProductSubCategoryEntity();
+			selectedProductSubType.setSubCategoryId(getProdSubCategory());
+			productEntity.setProdSubType(selectedProductSubType);
+		}
 		
 		return productEntity;
 	}
@@ -125,10 +158,12 @@ public class ProductFormBean {
 		productFormBean.setProdEntryDate(productEntity.getProdEntryDate());
 		productFormBean.setProdId(productEntity.getProdId());
 		productFormBean.setProdName(productEntity.getProdName());
-		//productEntity.setProdEntryDate(this.getProdEntryDate());
 		productFormBean.setProdUsgFlg(productEntity.getProdUsgFlg());
-		productFormBean.setProdType(productEntity.getProdType().getType_id());
-		productFormBean.setProdSubType(productEntity.getProdSubType().getSubTypeId());
+		productFormBean.setProdCategory(productEntity.getProdType().getCategoryId());
+		productFormBean.setProdSubCategory(productEntity.getProdSubType().getSubCategoryId());
+		
+		productFormBean.setProductCategoryName(productEntity.getProdType().getCategoryName());
+		productFormBean.setProductSubCategoryName(productEntity.getProdSubType().getSubCategoryName());
 		
 		return productFormBean;
 	}

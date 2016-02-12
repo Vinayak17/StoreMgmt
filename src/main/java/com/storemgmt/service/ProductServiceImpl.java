@@ -34,12 +34,10 @@ public class ProductServiceImpl implements ProductService {
 
 	public void updateProduct(ProductFormBean updateProductFormBean){
 		
-		ProductEntity updateProductEntity = updateProductFormBean.toProductEntity(new ProductEntity());
-		updateProductEntity.setUpdatedOn(LocalDate.now());
-		updateProductEntity.setProdUsgFlg(USAGE_FLAG_YES);
-		productDaoImpl.updateProduct(updateProductEntity);
-		
-
+		ProductEntity productEntity = productDaoImpl.getProductById(updateProductFormBean.getProdId());
+		ProductEntity updatedProductEntity = updateProductFormBean.toProductEntity(productEntity);
+		updatedProductEntity.setUpdatedOn(LocalDate.now());
+		productDaoImpl.updateProduct(updatedProductEntity);
 	}
 
 	public ProductEntity getProduct(ProductEntity productEntity){

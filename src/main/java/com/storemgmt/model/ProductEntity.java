@@ -2,8 +2,6 @@ package com.storemgmt.model;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -13,12 +11,6 @@ import javax.persistence.Table;
 
 import org.hibernate.annotations.Type;
 import org.joda.time.LocalDate;
-import org.springframework.context.annotation.Scope;
-import org.springframework.stereotype.Component;
-import org.springframework.stereotype.Repository;
-
-import com.storemgmt.model.ProductType;
-import com.storemgmt.service.ProductService;
 
 @Entity(name = "ProductEntity")
 @Table(name = "PRODUCT_DETAILS")
@@ -35,14 +27,14 @@ public class ProductEntity implements IAuditable{
 	
 	//@Digits(integer = 1,fraction=0)
 	@ManyToOne
-	@JoinColumn(name = "prod_type")
+	@JoinColumn(name = "category")
 	//@Enumerated(EnumType.STRING)
-	protected ProductType prodType;
+	protected ProductCategoryEntity prodType;
 	
 	//@Digits(integer = 1,fraction=0)
 	@ManyToOne
 	@JoinColumn(name = "prod_sub_type")
-	protected ProductSubType prodSubType;
+	protected ProductSubCategoryEntity prodSubType;
 	
 	@Column(name = "prod_name")
 	protected String prodName;
@@ -91,19 +83,19 @@ public class ProductEntity implements IAuditable{
 		this.barCode = barCode;
 	}
 
-	public ProductType getProdType() {
+	public ProductCategoryEntity getProdType() {
 		return prodType;
 	}
 
-	public void setProdType(ProductType prodType) {
+	public void setProdType(ProductCategoryEntity prodType) {
 		this.prodType = prodType;
 	}
 
-	public ProductSubType getProdSubType() {
+	public ProductSubCategoryEntity getProdSubType() {
 		return prodSubType;
 	}
 
-	public void setProdSubType(ProductSubType prodSubType) {
+	public void setProdSubType(ProductSubCategoryEntity prodSubType) {
 		this.prodSubType = prodSubType;
 	}
 

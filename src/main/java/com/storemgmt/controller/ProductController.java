@@ -1,13 +1,16 @@
 package com.storemgmt.controller;
 
 import java.util.List;
+import java.util.Locale;
 import java.util.Set;
 
 import javax.validation.ConstraintViolation;
 import javax.validation.Validator;
 import javax.validation.ValidatorFactory;
 
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
@@ -41,38 +44,60 @@ public class ProductController {
 	@Autowired
 	protected ValidatorFactory factory;
 	
+	@Autowired
+	private MessageSource messageSource;
+	
+	Logger logger = Logger.getLogger(ProductController.class);
+	
 	@RequestMapping(value = "/", method = RequestMethod.GET)
 	public ModelAndView productsHomePage(Model model)
 	{
+		logger.debug("Entering productsHomePage(Model)");
+		
 		List<ProductFormBean> productList = productServiceImpl.getProducts();
 		model.addAttribute("productList", productList);
+		
+		logger.debug("Returning from productsHomePage(Model)");
+		
 		return new ModelAndView("products");
 	}
 	
 	@RequestMapping(value="/productEntry")
-	public ModelAndView productEntryPage(Model model,ProductFormBean productFormBean)
+	public ModelAndView productEntryPage(Model model,ProductFormBean productFormBean,BindingResult result)
 	{
+		logger.debug("Entering productEntryPage(Model,ProductFormBean,BindingResult)");
+		
 		configurableParameterService.insertProductType();
 		configurableParameterService.insertProductSubType();
 		model.addAttribute("productFormBean", productFormBean);
-		model.addAttribute("productTypes", configurableParameterService.getAllProductTypes());
+		model.addAttribute("productTypeList", configurableParameterService.getProductCategories());
+		model.addAttribute("productSubTypeList", configurableParameterService.getProductSubCategories());
+		model.addAttribute(result);
+		
+		logger.debug("Returning from productEntryPage(Model,ProductFormBean,BindingResult)");
+		
 		return new ModelAndView("productEntry");
+				
 	}
-
+	
 	@RequestMapping(value ="/add", method = RequestMethod.POST)
 	public ModelAndView addOrUpdateProduct(@ModelAttribute("productFormBean") ProductFormBean productFormBean,BindingResult result,Model model) throws Exception
 	{
+		logger.debug("Entering function addOrUpdateProduct(ProductFormBean,BindingResult,Model)");
 		
 		validator = factory.getValidator();
 		Set<ConstraintViolation<ProductFormBean>> constraintViolations = validator.validate( productFormBean );
 		for(ConstraintViolation<ProductFormBean> x : constraintViolations)
 		{
-			result.addError(new FieldError("productFormBean", x.getPropertyPath().toString(), x.getMessage()) );
+			result.addError(new FieldError("productFormBean", x.getPropertyPath().toString(), messageSource.getMessage("NotEmpty.productFormBean.prodName", new String []{productFormBean.getProdName()}, Locale.getDefault())) );
 		}
 		
 		if(result.hasErrors())
 		{
-			return productsHomePage(model);
+			logger.debug("Validation Errors found in the ProductFormBean");			
+			logger.debug("Returning from addOrUpdateProduct(ProductFormBean,BindingResult,Model)");
+			
+			return productEntryPage(model,productFormBean,result);
 		}
 		
 		if(productFormBean.getProdId() == 0)
@@ -83,6 +108,9 @@ public class ProductController {
 		{
 			productServiceImpl.updateProduct(productFormBean);
 		}
+		
+		logger.debug("Returning from addOrUpdateProduct(ProductFormBean,BindingResult,Model)");
+		
 		return new ModelAndView("redirect:/product/");
 		
 	}
@@ -90,10 +118,17 @@ public class ProductController {
 	@RequestMapping(value="/edit/{id}",method = RequestMethod.GET)
 	public String editProduct(@PathVariable("id") long productId,Model model)throws Exception
 	{
+		logger.debug("Entering function editProduct(long,Model)");
+		
 		model.addAttribute("productFormBean", ProductFormBean.toProductFormBean(productServiceImpl.getProductById(productId)));
-		List<ProductFormBean> fetchedProductFormBeanList = productServiceImpl.getProducts();
-		model.addAttribute("productList", fetchedProductFormBeanList);
-		return "products";
+		//List<ProductFormBean> fetchedProductFormBeanList = productServiceImpl.getProducts();
+		//model.addAttribute("productList", fetchedProductFormBeanList);
+		model.addAttribute("productTypeList", configurableParameterService.getProductCategories());
+		model.addAttribute("productSubTypeList", configurableParameterService.getProductSubCategories());
+		
+		logger.debug("Returning from editProduct(long,Model)");
+		
+		return "productEntry";
 
 	}
 

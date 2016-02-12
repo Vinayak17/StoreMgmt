@@ -7,46 +7,46 @@ import java.util.Map;
 import org.hibernate.Criteria;
 import org.springframework.stereotype.Repository;
 
-import com.storemgmt.model.ProductSubType;
-import com.storemgmt.model.ProductType;
+import com.storemgmt.model.ProductSubCategoryEntity;
+import com.storemgmt.model.ProductCategoryEntity;
 
 @Repository("ConfigurableParameterDAO")
 public class ConfigurableParameterDAO extends AbstractDao{
 
-	public void insertProductType(ProductType productTypeInp)
+	public void insertProductCategory(ProductCategoryEntity productTypeInp)
 	{
 		getSession().save(productTypeInp);
 	}
-	public List<ProductType> getProductTypes()
+	public List<ProductCategoryEntity> getProductCategories()
 	{
 		Map<Integer,String> productTypesMap = new HashMap<Integer, String>();
 		
-		Criteria criteria = getSession().createCriteria(ProductType.class);
-		List<ProductType> productTypesList = criteria.list();
+		Criteria criteria = getSession().createCriteria(ProductCategoryEntity.class);
+		List<ProductCategoryEntity> productTypesList = criteria.list();
 		
-		for(ProductType type : productTypesList)
+		for(ProductCategoryEntity type : productTypesList)
 		{
-			productTypesMap.put(type.getType_id(), type.getType_name());
+			productTypesMap.put(type.getCategoryId(), type.getCategoryName());
 		}
 		
 		return productTypesList;
 	}
 	
-	public void insertProductType(ProductSubType productSubTypeInp)
+	public void insertProductSubCategory(ProductSubCategoryEntity productSubTypeInp)
 	{
 		getSession().save(productSubTypeInp);
 	}
 	
-	public List<ProductSubType> getProductSubTypes()
+	public List<ProductSubCategoryEntity> getProductSubCategories()
 	{
 		Map<Integer,String> productTypesMap = new HashMap<Integer, String>();
 		
-		Criteria criteria = getSession().createCriteria(ProductSubType.class);
-		List<ProductSubType> productSubTypesList = criteria.list();
+		Criteria criteria = getSession().createCriteria(ProductSubCategoryEntity.class);
+		List<ProductSubCategoryEntity> productSubTypesList = criteria.list();
 		
-		for(ProductSubType type : productSubTypesList)
+		for(ProductSubCategoryEntity type : productSubTypesList)
 		{
-			productTypesMap.put(type.getSubTypeId(), type.getSubTypeName());
+			productTypesMap.put(type.getSubCategoryId(), type.getSubCategoryName());
 		}
 		
 		return productSubTypesList;
