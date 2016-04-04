@@ -114,8 +114,8 @@ public class PurchaseTransactionFormBean {
 	{
 		transactionEntity.setTxnId(this.getTxnId());
 		transactionEntity.setSupplierId(this.getSupplierId());
-		transactionEntity.setTrueDt(this.getTrueDt());
-		transactionEntity.setTxnDt(this.getTransactionDt());
+		//transactionEntity.setTrueDt(this.getTrueDt());
+		//transactionEntity.setTxnDt(this.getTransactionDt());
 		transactionEntity.setItemList(this.convertToInventoryEntityList(this.getItemList()));
 		transactionEntity.setTxnSubTotal(this.getSubTotal());
 		transactionEntity.setTxnExtra(this.getExtra());
@@ -130,7 +130,7 @@ public class PurchaseTransactionFormBean {
 		List<InventoryEntity> itemList = new ArrayList<InventoryEntity>();
 		for(InventoryFormBean inventoryFormBean : itemListIFB)
 		{
-			itemList.add(inventoryFormBean.convertToInventoryEntity());
+			//itemList.add(inventoryFormBean.convertToInventoryEntity());
 		}
 		
 		return itemList;

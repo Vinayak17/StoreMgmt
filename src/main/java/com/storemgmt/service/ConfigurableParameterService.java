@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.storemgmt.bean.ConfigurableParameterFormBean;
 import com.storemgmt.bean.ProductSubCategoryBean;
 import com.storemgmt.bean.ProductCategoryBean;
 import com.storemgmt.dao.ConfigurableParameterDAO;
@@ -41,34 +42,36 @@ public class ConfigurableParameterService {
 		}
 		return productSubTypeBeanList;
 	}
-
-	public void insertProductType()
+	
+	public ProductCategoryBean getproductCategoryById(int CategoryId)
 	{
-		ProductCategoryEntity newProductType = new ProductCategoryEntity();
-		newProductType.setCategoryName("type 1");
+		ProductCategoryEntity productCategoryEntity = configurableParameterDAO.getProductCategoryById(CategoryId);
 		
-		ProductCategoryEntity newProductType2 = new ProductCategoryEntity();
-		newProductType2.setCategoryName("type 2");
-		
-		configurableParameterDAO.insertProductCategory(newProductType);
-		configurableParameterDAO.insertProductCategory(newProductType2);
+		return ProductCategoryBean.toProductTypeBean(productCategoryEntity);
 	}
 	
-	public void insertProductSubType()
+	public ProductSubCategoryBean getproductSubCategoryById(int subCategoryId)
 	{
-		ProductSubCategoryEntity newProductType = new ProductSubCategoryEntity();
-		ProductCategoryEntity productCategoryEntity = new ProductCategoryEntity();
-		productCategoryEntity.setCategoryId(1);
-		newProductType.setSubCategoryName("Sub type 1");
-		newProductType.setParentCategory(productCategoryEntity);
+		ProductSubCategoryEntity productSubCategoryEntity = configurableParameterDAO.getProductSubCategoryById(subCategoryId);
 		
-		ProductSubCategoryEntity newProductType2 = new ProductSubCategoryEntity();
-		newProductType2.setSubCategoryName("Sub type 2");
-		newProductType2.setParentCategory(productCategoryEntity);
-		
-		configurableParameterDAO.insertProductSubCategory(newProductType);
-		configurableParameterDAO.insertProductSubCategory(newProductType2);
+		return ProductSubCategoryBean.toProductSubTypeBean(productSubCategoryEntity);
+	}
 
+	public void insertProductType(ConfigurableParameterFormBean configurableParameterFormBean)
+	{
+		configurableParameterDAO.insertProductCategory(configurableParameterFormBean.toProductCategoryEntity());
+	}
+	
+	public void insertProductSubType(ConfigurableParameterFormBean configurableParameterFormBean)
+	{
+		/*ProductCategoryEntity productCategoryEntity = configurableParameterDAO.getProductCategoryById(configurableParameterFormBean.getProductCategoryId());
+		ProductSubCategoryEntity productSubCategoryEntity = new ProductSubCategoryEntity();
+		productSubCategoryEntity.setParentCategory(productCategoryEntity);
+		productSubCategoryEntity.setSubCategoryName(configurableParameterFormBean.getProductSubCategoryName());
+		*/
+		configurableParameterDAO.insertProductSubCategory(configurableParameterFormBean.toProductSubCategoryEntity());
 		
 	}
+	
+	
 }

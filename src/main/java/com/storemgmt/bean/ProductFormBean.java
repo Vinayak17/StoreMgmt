@@ -1,6 +1,7 @@
 package com.storemgmt.bean;
 
 import javax.validation.constraints.Min;
+import javax.validation.constraints.NotNull;
 
 import org.hibernate.validator.constraints.NotBlank;
 import org.hibernate.validator.constraints.NotEmpty;
@@ -9,6 +10,7 @@ import org.joda.time.LocalDate;
 import com.storemgmt.model.ProductEntity;
 import com.storemgmt.model.ProductSubCategoryEntity;
 import com.storemgmt.model.ProductCategoryEntity;
+import com.storemgmt.service.ProductService.MeasurementScale;
 
 //@Component("ProductFormBean")
 //@Scope("prototype")   *** Only the stateless beans should be spring managed bean**
@@ -17,18 +19,25 @@ public class ProductFormBean {
 	
 	protected long prodId;
 	
-	@Min(value = 4 , message = "Barcode huhuh")
+	@Min(value = 4 , message = "Assign a bar code..")
 	protected long barCode;
 	
+	@NotNull(message="Product Category should be choosen")
 	protected int prodCategory;
 	
+	@NotNull(message="Product Sub Category should be choosen")
 	protected int prodSubCategory;
 	
-	@NotBlank
+	@NotEmpty
 	protected String prodName;
 	
 	@NotEmpty
 	protected String prodDesc;
+	
+	private int measurementScale;
+	
+	@NotEmpty(message="Choose the right measurement scale")
+	private String measurementScaleName;
 	
 	protected LocalDate prodEntryDate;
 	
@@ -37,6 +46,8 @@ public class ProductFormBean {
 	private String productCategoryName;
 	
 	private String productSubCategoryName;
+	
+	private float profitPercentage;
 	
 	public long getProdId() {
 		return prodId;
@@ -86,6 +97,22 @@ public class ProductFormBean {
 		this.prodDesc = prodDesc;
 	}
 
+	public int getMeasurementScale() {
+		return measurementScale;
+	}
+
+	public void setMeasurementScale(int measurementScale) {
+		this.measurementScale = measurementScale;
+	}
+
+	public String getMeasurementScaleName() {
+		return measurementScaleName;
+	}
+
+	public void setMeasurementScaleName(String measurementScaleName) {
+		this.measurementScaleName = measurementScaleName;
+	}
+
 	public LocalDate getProdEntryDate() {
 		return prodEntryDate;
 	}
@@ -118,6 +145,14 @@ public class ProductFormBean {
 	public void setProductSubCategoryName(String productSubTypeName) {
 		this.productSubCategoryName = productSubTypeName;
 	}
+	
+	public float getProfitPercentage() {
+		return profitPercentage;
+	}
+
+	public void setProfitPercentage(float profitPercentage) {
+		this.profitPercentage = profitPercentage;
+	}
 
 	public ProductEntity toProductEntity(ProductEntity productEntity)
 	{	
@@ -147,6 +182,15 @@ public class ProductFormBean {
 			productEntity.setProdSubType(selectedProductSubType);
 		}
 		
+		if(getProfitPercentage() != 0f)
+		{
+			productEntity.setProfitPer(getProfitPercentage());
+		}
+		
+		if(getMeasurementScaleName() != null)
+		{
+			productEntity.setScale(MeasurementScale.valueOf(MeasurementScale.class, getMeasurementScaleName()));
+		}
 		return productEntity;
 	}
 	
@@ -165,6 +209,9 @@ public class ProductFormBean {
 		productFormBean.setProductCategoryName(productEntity.getProdType().getCategoryName());
 		productFormBean.setProductSubCategoryName(productEntity.getProdSubType().getSubCategoryName());
 		
+		productFormBean.setProfitPercentage(productEntity.getProfitPer());
+		
+		productFormBean.setMeasurementScaleName(productEntity.getScale().toString());
 		return productFormBean;
 	}
 }

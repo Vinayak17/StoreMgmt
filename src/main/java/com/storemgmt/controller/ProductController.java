@@ -10,12 +10,15 @@ import javax.validation.ValidatorFactory;
 
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.propertyeditors.CustomNumberEditor;
 import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
+import org.springframework.web.bind.WebDataBinder;
+import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -49,6 +52,13 @@ public class ProductController {
 	
 	Logger logger = Logger.getLogger(ProductController.class);
 	
+	@InitBinder
+	protected void initBinder(WebDataBinder binder) {
+
+	    binder.registerCustomEditor(Integer.class, new CustomNumberEditor(Integer.class, true));
+
+	}
+	
 	@RequestMapping(value = "/", method = RequestMethod.GET)
 	public ModelAndView productsHomePage(Model model)
 	{
@@ -67,12 +77,13 @@ public class ProductController {
 	{
 		logger.debug("Entering productEntryPage(Model,ProductFormBean,BindingResult)");
 		
-		configurableParameterService.insertProductType();
-		configurableParameterService.insertProductSubType();
+		//configurableParameterService.insertProductType();
+		//configurableParameterService.insertProductSubType();
 		model.addAttribute("productFormBean", productFormBean);
 		model.addAttribute("productTypeList", configurableParameterService.getProductCategories());
 		model.addAttribute("productSubTypeList", configurableParameterService.getProductSubCategories());
-		model.addAttribute(result);
+		model.addAttribute("measurementScaleList", ProductService.MeasurementScale.values());
+		model.addAttribute("pageResult",result);
 		
 		logger.debug("Returning from productEntryPage(Model,ProductFormBean,BindingResult)");
 		
@@ -89,7 +100,8 @@ public class ProductController {
 		Set<ConstraintViolation<ProductFormBean>> constraintViolations = validator.validate( productFormBean );
 		for(ConstraintViolation<ProductFormBean> x : constraintViolations)
 		{
-			result.addError(new FieldError("productFormBean", x.getPropertyPath().toString(), messageSource.getMessage("NotEmpty.productFormBean.prodName", new String []{productFormBean.getProdName()}, Locale.getDefault())) );
+			//result.addError(new FieldError("productFormBean", x.getPropertyPath().toString(), messageSource.getMessage("NotEmpty.productFormBean.prodName", new String []{productFormBean.getProdName()}, Locale.getDefault())) );
+			result.addError(new FieldError("productFormBean", x.getPropertyPath().toString(), x.getMessage()));
 		}
 		
 		if(result.hasErrors())
@@ -101,14 +113,22 @@ public class ProductController {
 		}
 		
 		if(productFormBean.getProdId() == 0)
-		{ 			
+		{
+			if(productServiceImpl.searchForDuplicateProductName(productFormBean.getProdName()))
+			{
+				result.addError(new FieldError("productFormBean", "prodName", "Duplicate Product Name Exist"));
+				
+				logger.debug("Validation Errors found in the ProductFormBean");			
+				logger.debug("Returning from addOrUpdateProduct(ProductFormBean,BindingResult,Model)");
+				
+				return productEntryPage(model,productFormBean,result);
+			}
+			
 			productServiceImpl.addProduct(productFormBean);
 		}
 		else
-		{
 			productServiceImpl.updateProduct(productFormBean);
-		}
-		
+				
 		logger.debug("Returning from addOrUpdateProduct(ProductFormBean,BindingResult,Model)");
 		
 		return new ModelAndView("redirect:/product/");
@@ -121,11 +141,9 @@ public class ProductController {
 		logger.debug("Entering function editProduct(long,Model)");
 		
 		model.addAttribute("productFormBean", ProductFormBean.toProductFormBean(productServiceImpl.getProductById(productId)));
-		//List<ProductFormBean> fetchedProductFormBeanList = productServiceImpl.getProducts();
-		//model.addAttribute("productList", fetchedProductFormBeanList);
 		model.addAttribute("productTypeList", configurableParameterService.getProductCategories());
 		model.addAttribute("productSubTypeList", configurableParameterService.getProductSubCategories());
-		
+		model.addAttribute("measurementScaleList", ProductService.MeasurementScale.values());
 		logger.debug("Returning from editProduct(long,Model)");
 		
 		return "productEntry";

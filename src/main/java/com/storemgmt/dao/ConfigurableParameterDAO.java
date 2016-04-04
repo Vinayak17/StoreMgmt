@@ -17,6 +17,10 @@ public class ConfigurableParameterDAO extends AbstractDao{
 	{
 		getSession().save(productTypeInp);
 	}
+	public ProductCategoryEntity getProductCategoryById(int categoryId)
+	{
+		return (ProductCategoryEntity)getSession().get(ProductCategoryEntity.class, categoryId);
+	}
 	public List<ProductCategoryEntity> getProductCategories()
 	{
 		Map<Integer,String> productTypesMap = new HashMap<Integer, String>();
@@ -37,6 +41,10 @@ public class ConfigurableParameterDAO extends AbstractDao{
 		getSession().save(productSubTypeInp);
 	}
 	
+	public ProductSubCategoryEntity getProductSubCategoryById(int subCategoryId)
+	{
+		return (ProductSubCategoryEntity)getSession().get(ProductSubCategoryEntity.class, subCategoryId);
+	}
 	public List<ProductSubCategoryEntity> getProductSubCategories()
 	{
 		Map<Integer,String> productTypesMap = new HashMap<Integer, String>();

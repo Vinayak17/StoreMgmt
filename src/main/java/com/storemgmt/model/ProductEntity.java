@@ -2,6 +2,8 @@ package com.storemgmt.model;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -12,12 +14,13 @@ import javax.persistence.Table;
 import org.hibernate.annotations.Type;
 import org.joda.time.LocalDate;
 
+import com.storemgmt.service.ProductService.MeasurementScale;
+
 @Entity(name = "ProductEntity")
 @Table(name = "PRODUCT_DETAILS")
 public class ProductEntity implements IAuditable{
 	
 	@Id
-	//@Digits(integer = 4,fraction = 0)
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	@Column(name ="prod_id", nullable = false)
 	protected long prodId;
@@ -25,13 +28,10 @@ public class ProductEntity implements IAuditable{
 	@Column(name = "prod_barcode")
 	protected long barCode;
 	
-	//@Digits(integer = 1,fraction=0)
 	@ManyToOne
 	@JoinColumn(name = "category")
-	//@Enumerated(EnumType.STRING)
 	protected ProductCategoryEntity prodType;
 	
-	//@Digits(integer = 1,fraction=0)
 	@ManyToOne
 	@JoinColumn(name = "prod_sub_type")
 	protected ProductSubCategoryEntity prodSubType;
@@ -44,6 +44,9 @@ public class ProductEntity implements IAuditable{
 
 	@Column(name = "profit_percentage")
 	protected float profitPer;
+	
+	@Enumerated(EnumType.STRING)
+	private MeasurementScale scale;
 	
 	@Column(name = "prod_Entry_dt")
 	@Type(type="org.jadira.usertype.dateandtime.joda.PersistentLocalDate")
@@ -131,6 +134,15 @@ public class ProductEntity implements IAuditable{
 		this.profitPer = profitPer;
 	}
 	
+	
+	public MeasurementScale getScale() {
+		return scale;
+	}
+
+	public void setScale(MeasurementScale scale) {
+		this.scale = scale;
+	}
+
 	public byte getProdUsgFlg() {
 		return prodUsgFlg;
 	}
